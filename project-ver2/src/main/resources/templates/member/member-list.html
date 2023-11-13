@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<title></title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-
-</body>
+  <head>
+    <title>회원 목록</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      tr,
+      td {
+        border: 2px solid black;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <td>번호</td>
+          <td>이름</td>
+        </tr>
+      </thead>
+      <tbody>
+		  <!--foreach 처럼-->
+        <tr th:each="member : ${members}">
+          <td th:text="${member.id}"></td>
+          <td th:text="${member.name}"></td>
+        </tr>
+      </tbody>
+    </table>
+<!--    <p>
+      <div>members</div>
+      <div th:text="${members.get(0)}">1번 고객 정보 : 주소</div>
+      <div th:text="${members.get(0).id}">1번 고객 정보 : 아이디</div>
+      <div th:text="${members.get(0).name}"> 1번 고객 정보 : 이름</div>
+    </p>-->
+  </body>
 </html>

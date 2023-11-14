@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import himedia.project.domain.Member;
 import himedia.project.domain.MemberForm;
@@ -45,24 +46,43 @@ public class MemberController {
 		return "member/member-list";
 	}
 
-	@GetMapping("/search")
-	public String search(Long id, String name, Model model) {
-		Optional<Member> member;
-		if (name == "") {
-			if (id == null) 
-				return "redirect:/";
-			else 
-				member = service.findId(id);
-		} else 
-			member = service.findName(name);
+// [문제] 목록에 없는 회원을 검색했을 때 오류가 발생하지 않게 수정하기,
 
-		if (!member.isEmpty()) {
-			model.addAttribute("id", member.get().getId());
-			model.addAttribute("name", member.get().getName());
-		} else {
-			System.out.println("일치하는 값이 없다");
-		}
+	@GetMapping("/search")
+	public String search(@RequestParam(required = false) Long id,
+			@RequestParam("name") String name, Model model) {
+
+		Member member = new Member();
+
+		if(service.findId(id).isPresent()) 
+			member = service.findId(id).get();
+		else if (service.findName(name).isPresent())
+			member = service.findName(name).get();
+		model.addAttribute("member", member);
+
 		return "/member/search";
 	}
 
+	// [방법2]
+	// [리플렉션 기법] Reflection
+	//  view -> controller
+	// 자동으로 setter 실행 -> 데이터 자동 처리
+	// controller -> view
+	// 자동으로 getter 실행
+	// [parameter에 사용되는 @ModelAttribute("member")와 Model의 차이
+	// @ModelAttribute : view -> controller로 데이터 넘어올 때
+	// Model 		   : controller -> view로 데이터 넘길 때
+	
+	//@ModelAttribute는 view로 넘길 때 타입명을 사용해서 넘긴다.
+	// ModelAttribute와 Model은 자동으로 binding 되어있다
+	// [문제] @ ModelAttribute : binding의 의미 - 문서주석 참고
+	
+//	public String memberSearch(@ModelAttribute("hello") Member member , 
+//	public String memberSearch(@ModelAttribute(binding = false, name="hello") Member member , 
+	
+//	public String memberSearch(@ModelAttribute Member member , 
+//			Model model) {
+//	
+//		return "member/search";
+//	}
 }

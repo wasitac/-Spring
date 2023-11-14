@@ -36,12 +36,19 @@ public class MemoryMemberRepository implements MemberRepository{
 	@Override
 	public Optional<Member> findByName(String name) {
 			//문제
-		for ( Entry<Long, Member> s : store.entrySet()) {
-			if (s.getValue().getName().equals(name)) {
-				return Optional.ofNullable(store.get(s.getKey()));
+//		for ( Entry<Long, Member> s : store.entrySet()) {
+//			if (s.getValue().getName().equals(name)) {
+//				return Optional.ofNullable(store.get(s.getKey()));
+//			}			
+//		}
+		for (Member m : store.values()) {
+			if (m.getName().equals(name)) {
+				return Optional.ofNullable(m);
 			}			
 		}
 		return Optional.empty();
+		
+		// [문제] 위 코드를 stream으로 변경
 	}
 	
 	@Override

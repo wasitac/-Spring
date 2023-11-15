@@ -22,6 +22,7 @@ public class MemberControllerEx {
 	//repository 사이에 service 추가
 //	private final MemberRepository repository = new MemoryMemberRepository();
 
+	//에러나서
 //	private final MemberService service = new MemberService();
 	private final MemberService service = null;
 	

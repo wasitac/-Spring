@@ -14,7 +14,8 @@ public class MemberService {
 //	private final MemberRepository repo = new MemoryMemberRepository();
 	//[문제] constructor D.I
 	private final MemberRepository repo;
-	public MemberService(MemberRepository repo) {
+	
+	public MemberService(/* @Qualifier("jdbcTemplateMemberRepository") */ MemberRepository repo) {
 		this.repo = repo;
 	}
 	/**

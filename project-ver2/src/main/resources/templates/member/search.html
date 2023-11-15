@@ -11,12 +11,20 @@
       <span>아이디 : </span>
 <!--      <span th:text="${id}"></span>-->
 <!--      <span th:text="${member.getId()}"></span> 프로퍼티 사용해라-->
-  <span th:text="${member.id}"></span>
+<!--  <span th:text="${member.id}"></span>-->
+<!--member가 null일 경우를 뷰에서 처리-->
+<!--  		<span th:text="${member != null ? member.id : null}"></span>-->
+<!--null 비교할 때 사용 가능한 축약. member가 null이 아니면 member.id-->
+  		<span th:text="${member?.id}"></span>
+
+<!--null을 처리할 때, null이 아니면 실행하라는 축약-->
     </div>
     <div>
       <span>이름 : </span>
 <!--      <span th:text="${name}"></span>-->
-      <span th:text="${member.name}"></span>
+<!--      <span th:text="${member.name}"></span>-->
+<!--      <span th:text="${member != null ? member.name : null}"></span>-->
+		  <span th:text="${member?.name}"></span>
     </div>
   </body>
 </html>

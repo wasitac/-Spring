@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,10 @@ public class MemoryMemberRepository implements MemberRepository{
 	
 	private static Map<Long, Member> store = new HashMap<>();
 	private static Long sequence = 0L;
-	
+
+	public MemoryMemberRepository() {
+		System.out.println("MemoryMemberRepository 생성자 실행");
+	}
 	@Override
 	public Member save(Member member) {
 		member.setId(++sequence);
@@ -30,7 +32,7 @@ public class MemoryMemberRepository implements MemberRepository{
 	@Override
 	public Optional<Member> findById(Long id) {
 			//문제
-			return Optional.ofNullable(store.get(id));			
+			return Optional.ofNullable(store.get(id));
 	}
 	
 	@Override
@@ -41,14 +43,18 @@ public class MemoryMemberRepository implements MemberRepository{
 //				return Optional.ofNullable(store.get(s.getKey()));
 //			}			
 //		}
-		for (Member m : store.values()) {
-			if (m.getName().equals(name)) {
-				return Optional.ofNullable(m);
-			}			
-		}
-		return Optional.empty();
+		// 더 쉽게 할 수 있었는데
+//		for (Member m : store.values()) {
+//			if (m.getName().equals(name)) {
+//				return Optional.ofNullable(m);
+//			}			
+//		}
+//		return Optional.empty();
 		
 		// [문제] 위 코드를 stream으로 변경
+		return store.values().stream()
+		.filter(m -> m.getName().equals(name))
+		.findAny();
 	}
 	
 	@Override

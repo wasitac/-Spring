@@ -2,9 +2,7 @@ package himedia.project.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import himedia.project.domain.Member;
 import himedia.project.repository.MemberRepository;
 
@@ -14,7 +12,8 @@ public class MemberService {
 //	private final MemberRepository repo = new MemoryMemberRepository();
 	//[문제] constructor D.I
 	private final MemberRepository repo;
-	public MemberService(MemberRepository repo) {
+	
+	public MemberService(/* @Qualifier("jpaMemberReposiotry") */ MemberRepository repo) {
 		this.repo = repo;
 	}
 	/**

@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import himedia.project.domain.Member;
 
+import himedia.project.domain.Member;
+//@Primary
 @Repository
 public class JdbcTemplateMemberRepository implements MemberRepository {
 
@@ -18,8 +21,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
 
 	public JdbcTemplateMemberRepository(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
-		System.out.println("JdbcTemplateMemberRepository 생성자");
-
 	}
 
 	private RowMapper<Member> memberRowMapper() {

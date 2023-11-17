@@ -31,7 +31,7 @@ public class JpaMemberReposiotry implements MemberRepository{
 	@Override
 	public Optional<Member> findById(Long id) {
 		Member member = em.find(Member.class, id);
-		if(member!=null) {
+		if(member != null) {
 			System.out.println("member >> " +  member);
 			System.out.println("member.getId() >> " + member.getId());
 			System.out.println("member.getName() >> " + member.getName());

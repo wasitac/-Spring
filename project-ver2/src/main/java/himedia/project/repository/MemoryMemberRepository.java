@@ -16,9 +16,6 @@ public class MemoryMemberRepository implements MemberRepository{
 	private static Map<Long, Member> store = new HashMap<>();
 	private static Long sequence = 0L;
 
-	public MemoryMemberRepository() {
-		System.out.println("MemoryMemberRepository 생성자 실행");
-	}
 	@Override
 	public Member save(Member member) {
 		member.setId(++sequence);

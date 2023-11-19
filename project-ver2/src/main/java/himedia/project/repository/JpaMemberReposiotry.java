@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import himedia.project.domain.Member;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -38,15 +40,22 @@ public class JpaMemberReposiotry implements MemberRepository{
 	public Optional<Member> findByName(String name) {
 		String jpqlQuery = "select m from Member m where m.name = :name";
 		TypedQuery<Member> query = em.createQuery(jpqlQuery, Member.class).setParameter("name", name);
-		query.getResultStream().forEach(m -> System.out.println("Id : " + m.getId() + " Name : " + m.getName()));
-//		return query.getResultStream().findAny();
-		return Optional.ofNullable(query.getSingleResult());
+//		query.getResultStream().forEach(m -> System.out.println("Id : " + m.getId() + " Name : " + m.getName()));
+////		return query.getResultStream().findAny();
+//		return Optional.ofNullable(query.getSingleResult());
 				
 		// [문제] 애초에 값을 한개만 가져오게 만들어보기
-//		Member result = em.createQuery(jpqlQuery, Member.class)
-//				.setParameter("name", name)
-//				.getSingleResult();
-//		return Optional.ofNullable(result);
+		Member result;
+		try {
+			result = em.createQuery("select m from Member m where m.name = :name", Member.class)
+					.setParameter("name", name)
+					.setMaxResults(1)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			result=null;
+		}
+			
+		return Optional.ofNullable(result);
 		
 	}
 
